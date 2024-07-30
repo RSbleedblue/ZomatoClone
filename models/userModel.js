@@ -16,7 +16,6 @@ const userSchema = new mongoose.Schema({
     },
     phoneNumber: {
         type: Number,
-        unique: true,
     },
     address: {
         type: String,
@@ -33,14 +32,12 @@ userSchema.pre("save", async function (next) {
             next(err);
         }
     } else {
-        return next();
+        next();
     }
 });
 
 userSchema.methods.comparePassword = async function (currentPassword) {
-    return bcrypt.compare(currentPassword, this.password);
+    return await bcrypt.compare(currentPassword, this.password);
 };
 
-const User = mongoose.model("User", userSchema, "Users");
-
-export default User;
+export default mongoose.model("User", userSchema, "users");
