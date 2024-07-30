@@ -39,5 +39,8 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.comparePassword = async function (currentPassword) {
     return await bcrypt.compare(currentPassword, this.password);
 };
+userSchema.methods.updateAddress = async function (currentAddress){
+    this.address = currentAddress;
+}
 
 export default mongoose.model("User", userSchema, "users");

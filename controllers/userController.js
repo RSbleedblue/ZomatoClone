@@ -45,6 +45,22 @@ class UserController {
             return res.status(500).json({ message: "Error registering new user", success: false, error: err });
         }
     }
+    async updateAddress(req,res){
+        const {id} = req.body;
+        const findUser = await userModel.findById(id);
+        if(!findUser){
+            return res.status(400).json({message : "User not found!", success : false});
+        };
+        try{
+            const {address} = req.body;
+            await findUser.updateAddress(address);
+            await findUser.save();
+            return res.status(202).json({message : "Address Updated Successfully", data : findUser, success: true});
+        }
+        catch(err){
+            return res.status(402).json({message : "Unexpected Error occured while updating the user", success : false});
+        }
+    }
 }
 
 export default UserController;
